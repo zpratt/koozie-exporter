@@ -32,3 +32,11 @@ releases:
         value: 30080
       - name: controller.service.nodePorts.https
         value: 30443
+  - name: topokube
+    namespace: topokube
+    chart: ./node-app
+    needs:
+      - namespaces
+    values:
+      - "./node-app/values.yaml"
+    wait: true

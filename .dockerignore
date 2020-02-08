@@ -1,0 +1,12 @@
+*
+
+!src
+!config
+
+!.eslintrc.js
+!.npmrc
+!.nvmrc
+!package.json
+!package-lock.json
+!index.js
+!routes
