@@ -19,6 +19,7 @@ inkind:
 	@echo cluster is $(current_cluster)
 	if [[ -z $$(kind get clusters) ]]; then kind create cluster --config cluster-config.yaml; fi
 	kind load docker-image topokube:$(version)
+	kubectl config set current-context kind-kind
 	helmfile apply
 
 testkind:
