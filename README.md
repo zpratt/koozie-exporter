@@ -7,6 +7,10 @@ This is my idea for a potentially useful way to view the details of objects depl
 
 See https://github.com/zpratt/topokube/issues/3 for feature ideas to include in v1.
 
+## Project State
+
+I'm still hacking on what this should look like, so there are no tests for anything. This is currently POC quality.
+
 ## Prerequisite Steps:
 
 1. `brew update && brew install helm kind helmfile`
