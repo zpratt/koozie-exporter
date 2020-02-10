@@ -19,4 +19,6 @@ I'm still hacking on what this should look like, so there are no tests for anyth
 
 ## Running In Kind:
 
+1. `sudo sh -c "echo '127.0.0.1 topokube.local' >> /etc/hosts"`
 1. `make inkind`
+1. `open http://topokube.local:30080/ui/index.html`
