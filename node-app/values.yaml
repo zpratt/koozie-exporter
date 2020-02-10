@@ -8,6 +8,10 @@ image:
   repository: topokube
   pullPolicy: Never
 
+uiImage:
+  repository: topokube-ui
+  pullPolicy: Never
+
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -22,13 +26,13 @@ serviceAccount:
 podSecurityContext: {}
   # fsGroup: 2000
 
-securityContext:
+securityContext: {}
   # capabilities:
   #   drop:
   #   - ALL
-  readOnlyRootFilesystem: true
-  runAsNonRoot: true
-  runAsUser: 1000
+#  readOnlyRootFilesystem: true
+#  runAsNonRoot: true
+#  runAsUser: 1000
 
 service:
   type: ClusterIP
@@ -40,8 +44,10 @@ ingress:
      kubernetes.io/ingress.class: nginx
   hosts:
     - host: topokube.local
-      paths:
-        - /
+      pathsApi:
+        - /api
+      pathsUI:
+        - /ui
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

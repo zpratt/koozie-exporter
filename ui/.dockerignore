@@ -1,0 +1,12 @@
+*
+
+!src
+
+!.babelrc
+!.eslintrc.js
+!.nvmrc
+!package.json
+!package-lock.json
+!index.js
+!index.html
+!nginx.conf

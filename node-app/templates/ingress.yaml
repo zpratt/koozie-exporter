@@ -31,10 +31,16 @@ spec:
     - host: {{ .host | quote }}
       http:
         paths:
-        {{- range .paths }}
+        {{- range .pathsApi }}
           - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}
+              servicePort: {{ $svcPort }}
+        {{- end }}
+        {{- range .pathsUI }}
+          - path: {{ . }}
+            backend:
+              serviceName: {{ $fullName }}-ui
               servicePort: {{ $svcPort }}
         {{- end }}
   {{- end }}

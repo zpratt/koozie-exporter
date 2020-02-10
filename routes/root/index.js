@@ -6,7 +6,7 @@ module.exports = {
     register: (server) => {
         server.route({
             method: 'GET',
-            path: '/',
+            path: '/api',
             handler: async (req) => {
                 return findAllNamespaces();
 
@@ -15,7 +15,7 @@ module.exports = {
 
         server.route({
             method: 'GET',
-            path: '/pods/{namespace}',
+            path: '/api/pods/{namespace}',
             handler: async (req) => {
                 const {namespace} = req.params;
                 return findAllPodsByNamespace(namespace);
