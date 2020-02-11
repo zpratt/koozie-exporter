@@ -6,8 +6,9 @@ import {Provider} from 'react-redux'
 import {applyMiddleware} from 'redux';
 import thunk from 'redux-thunk'
 import topokube from './src/reducers';
+import PodListContainer from "./src/pods/pod-list";
 
 const mainEl = document.getElementsByTagName('main')[0];
 const store = createStore(topokube, applyMiddleware(thunk));
 
-ReactDOM.render(<Provider store={store}><NamespaceListContainer/></Provider>, mainEl);
+ReactDOM.render(<Provider store={store}><NamespaceListContainer/><PodListContainer namespace={'topokube'}/></Provider>, mainEl);

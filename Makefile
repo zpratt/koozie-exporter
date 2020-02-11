@@ -9,9 +9,9 @@ clean:
 	rm -rf **/dist
 	rm -rf **/.cache
 	kind delete cluster
-	docker rm $$(docker ps -a -q)
 	docker rmi $$(docker images -f "reference=topokube:*" -q)
 	docker rmi $$(docker images -f "reference=topokube-ui:*" -q)
+	docker rm $$(docker ps -a -q)
 
 docker:
 	cd ui && \

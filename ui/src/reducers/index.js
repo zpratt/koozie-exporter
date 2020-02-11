@@ -2,15 +2,18 @@ import {combineReducers} from 'redux';
 
 const app = (state = [], action) => {
     const actions = {
-        'namespaces': {
+        namespaces: {
             namespaces: action.data
+        },
+        pods: {
+            pods: action.data
         }
     };
 
     return actions[action.type] ? {
         ...state,
         ...actions[action.type]
-    }: {...state};
+    } : {...state};
 };
 
 export default combineReducers({app});
