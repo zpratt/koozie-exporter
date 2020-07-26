@@ -7,11 +7,12 @@ current_cluster := "$$(kind get clusters)"
 clean:
 	rm -rf **/node_modules
 	rm -rf **/dist
+	rm -rf **/out
 	rm -rf **/.cache
 	kind delete cluster
 	docker rmi $$(docker images -f "reference=topokube:*" -q)
 	docker rmi $$(docker images -f "reference=topokube-ui:*" -q)
-	docker rm $$(docker ps -a -q)
+	docker system prune -f
 docker:
 	cd ui && \
 	docker build . -t topokube-ui:$(version)
