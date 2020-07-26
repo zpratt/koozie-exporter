@@ -23,7 +23,7 @@
   "homepage": "https://github.com/zpratt/topokube#readme",
   "dependencies": {
     "@hapi/glue": "7.0.0",
-    "@hapi/hapi": "18.4.0",
+    "@hapi/hapi": "19.2.0",
     "@kubernetes/client-node": "0.11.0"
   }
 }
