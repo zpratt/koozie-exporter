@@ -1,12 +1,5 @@
 *
 
-!src
-!config
-
-!.eslintrc.js
-!.npmrc
-!.nvmrc
-!package.json
-!package-lock.json
-!index.js
-!routes
+!internal
+!go.mod
+!main.go
