@@ -6,7 +6,9 @@ import (
 	"k8s.io/client-go/rest"
 	"k8s.io/klog/v2"
 	"net/http"
+	"strings"
 	"topokube/internal/namespaces"
+	"topokube/internal/pods"
 )
 
 func apiRoot(w http.ResponseWriter, r *http.Request) {
@@ -23,6 +25,16 @@ func apiRoot(w http.ResponseWriter, r *http.Request) {
 
 func health(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("pong"))
+}
+
+func getPods(w http.ResponseWriter, r *http.Request) {
+	pathParts := strings.Split(r.URL.Path, "/")[1:]
+	namespace := pathParts[len(pathParts) - 1]
+	client, _ := createClient()
+
+	podList := pods.ListPods(client, namespace)
+
+	json.NewEncoder(w).Encode(podList)
 }
 
 // NOTE: i should use an environment variable to determine if i should start this with the fake server
@@ -46,7 +58,8 @@ func createClient() (*kubernetes.Clientset, error) {
 }
 
 func main() {
-	http.HandleFunc("/", apiRoot)
+	http.HandleFunc("/api", apiRoot)
 	http.HandleFunc("/health", health)
+	http.HandleFunc("/api/pods/", getPods)
 	http.ListenAndServe(":8080", nil)
 }
