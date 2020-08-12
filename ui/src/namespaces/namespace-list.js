@@ -7,7 +7,7 @@ const NamespaceList = (props) => {
     const dispatch = useDispatch();
 
     const namespaces = props.namespaces.map((namespace, index) => {
-        return <Panel key={index}>{namespace}</Panel>
+        return <Panel key={index}>{namespace.name}</Panel>
     });
 
     useEffect(() => {

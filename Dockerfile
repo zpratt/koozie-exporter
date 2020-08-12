@@ -1,26 +1,19 @@
-FROM node:12.18.2-alpine as builder
+FROM golang:1.14.7-alpine3.12 as builder
+
+WORKDIR /workspace
+RUN apk add --no-cache gcc libc-dev
+COPY . .
+
+RUN go test ./... && \
+  go build -a
+
+##########################
+
+FROM alpine:3.12 as final
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY . .
+COPY --from=builder /workspace/topokube .
 
-RUN npm i --production
-USER node
-
-#######################################
-
-FROM node:12.18.2-alpine
-EXPOSE 8080
-
-RUN mkdir -p /usr/src/app && apk --no-cache update && sync
-WORKDIR /usr/src/app
-
-COPY --from=builder /usr/src/app/package.json .
-COPY --from=builder /usr/src/app/package-lock.json .
-COPY --from=builder /usr/src/app/index.js .
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app/routes ./routes
-
-USER node
-ENTRYPOINT ["node", "--experimental-modules", "index.js"]
+CMD ["./topokube"]

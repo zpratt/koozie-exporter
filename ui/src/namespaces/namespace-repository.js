@@ -9,7 +9,7 @@ export const findAllNamespaces = () => {
             .then((response) => {
                 dispatch({
                     type: 'namespaces',
-                    data: response.namespaceNames
+                    data: response
                 });
             });
     };
