@@ -4,7 +4,8 @@ WORKDIR /workspace
 RUN apk add --no-cache gcc libc-dev
 COPY . .
 
-RUN go build -a
+RUN go test ./... && \
+  go build -a
 
 ##########################
 
