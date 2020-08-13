@@ -19,7 +19,11 @@ func apiRoot(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "failed to connect to kubernetes", http.StatusInternalServerError)
 	}
 
-	namespaceList := namespaces.ListNamespaces(client)
+	namespaceService := namespaces.NamespaceServiceImpl{
+		Client: client,
+	}
+
+	namespaceList := namespaceService.ListNamespaces()
 
 	json.NewEncoder(w).Encode(namespaceList)
 }
