@@ -7,6 +7,7 @@ import (
 	"k8s.io/klog/v2"
 	"net/http"
 	"strings"
+	"topokube/handlers"
 	"topokube/internal/namespaces"
 	"topokube/internal/pods"
 )
@@ -21,10 +22,6 @@ func apiRoot(w http.ResponseWriter, r *http.Request) {
 	namespaceList := namespaces.ListNamespaces(client)
 
 	json.NewEncoder(w).Encode(namespaceList)
-}
-
-func health(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("pong"))
 }
 
 func getPods(w http.ResponseWriter, r *http.Request) {
@@ -59,7 +56,8 @@ func createClient() (*kubernetes.Clientset, error) {
 
 func main() {
 	http.HandleFunc("/api", apiRoot)
-	http.HandleFunc("/health", health)
+	//http.HandleFunc("/health", health)
+	http.Handle("/health", handlers.HealthHandler{})
 	http.HandleFunc("/api/pods/", getPods)
 	http.ListenAndServe(":8080", nil)
 }
