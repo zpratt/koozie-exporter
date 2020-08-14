@@ -17,7 +17,11 @@ func TestListNamespaces(t *testing.T) {
 	}
 	client.CoreV1().Namespaces().Create(namespace)
 
-	namespaceList := ListNamespaces(client)
+	namespaceService := NamespaceService{
+		Client: client,
+	}
+
+	namespaceList := namespaceService.ListNamespaces()
 	numberOfListedNamespaces := len(namespaceList)
 
 	if numberOfListedNamespaces == 0 {
