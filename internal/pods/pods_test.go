@@ -23,7 +23,11 @@ func TestListPodsInNamespace(t *testing.T) {
 	podSpec := givenAPodSpecInNamespace(someContainers, somePodName, someNamespace)
 	givenANamespaceAndPod(client, namespace, someNamespace, podSpec)
 
-	pods := ListPods(client, someNamespace)
+	podService := PodService{
+		Client: client,
+	}
+
+	pods := podService.ListPods(someNamespace)
 
 	if len(pods) == 0 {
 		log.Fatalf("ListPods returned empty result")

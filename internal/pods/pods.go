@@ -12,17 +12,25 @@ type Container struct {
 }
 
 type Pod struct {
-	Name       string `json:"name"`
+	Name       string      `json:"name"`
 	Containers []Container `json:"containers"`
 }
 
-func ListPods(k kubernetes.Interface, namespace string) []Pod {
-	podList, _ := k.CoreV1().Pods(namespace).List(metav1.ListOptions{})
+type PodServiceInterface interface {
+	ListPods(namespace string) []Pod
+}
+
+type PodService struct {
+	Client kubernetes.Interface
+}
+
+func (p PodService) ListPods(namespace string) []Pod {
+	podList, _ := p.Client.CoreV1().Pods(namespace).List(metav1.ListOptions{})
 	result := make([]Pod, len(podList.Items))
 
 	for i, pod := range podList.Items {
 		result[i] = Pod{
-			Name: pod.Name,
+			Name:       pod.Name,
 			Containers: extractContainersFromPod(pod),
 		}
 	}
@@ -35,7 +43,7 @@ func extractContainersFromPod(pod v1.Pod) []Container {
 
 	for i, container := range pod.Spec.Containers {
 		containers[i] = Container{
-			Name: container.Name,
+			Name:  container.Name,
 			Image: container.Image,
 		}
 	}

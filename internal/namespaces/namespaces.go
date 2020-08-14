@@ -9,15 +9,15 @@ type Namespace struct {
 	Name string `json:"name"`
 }
 
-type NamespaceService interface {
+type NamespaceServiceInterface interface {
 	ListNamespaces() []Namespace
 }
 
-type NamespaceServiceImpl struct {
+type NamespaceService struct {
 	Client kubernetes.Interface
 }
 
-func (n NamespaceServiceImpl) ListNamespaces() []Namespace {
+func (n NamespaceService) ListNamespaces() []Namespace {
 	namespaceList, _ := n.Client.CoreV1().Namespaces().List(metav1.ListOptions{})
 	result := make([]Namespace, len(namespaceList.Items))
 

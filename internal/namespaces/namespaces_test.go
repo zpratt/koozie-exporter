@@ -17,7 +17,7 @@ func TestListNamespaces(t *testing.T) {
 	}
 	client.CoreV1().Namespaces().Create(namespace)
 
-	namespaceService := NamespaceServiceImpl{
+	namespaceService := NamespaceService{
 		Client: client,
 	}
 
