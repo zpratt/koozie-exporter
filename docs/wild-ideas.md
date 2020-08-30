@@ -1,0 +1,1 @@
+* use nats as the receiver for kubernetes webhooks

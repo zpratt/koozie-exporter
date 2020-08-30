@@ -27,23 +27,28 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /certificates
+              name: tls-certificates
           env:
             - name: PORT
-              value: "8080"
+              value: "{{ .Values.service.port }}"
             - name: HOST
               value: "0.0.0.0"
           ports:
             - name: http
-              containerPort: 8080
+              containerPort: {{ .Values.service.port }}
               protocol: TCP
           livenessProbe:
             httpGet:
+              scheme: "HTTPS"
               path: /health
-              port: http
+              port: {{ .Values.service.port }}
           readinessProbe:
             httpGet:
+              scheme: "HTTPS"
               path: /health
-              port: http
+              port: {{ .Values.service.port }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         - name: {{ .Chart.Name }}-ui
@@ -65,6 +70,10 @@ spec:
               port: http-ui
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: tls-certificates
+          secret:
+            secretName: {{ include "node-app.fullname" . }}-webhook-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
