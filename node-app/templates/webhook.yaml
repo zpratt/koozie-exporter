@@ -1,0 +1,42 @@
+{{ $ca := genCA "svc-cat-ca" 3650 }}
+{{ $webhookCert := genSignedCert "topokube-node-app.topokube.svc.cluster.local" nil (list "topokube-node-app.topokube.svc" "topokube-node-app.topokube") 365 $ca }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ include "node-app.fullname" . }}-webhook-secret
+  labels:
+  {{- include "node-app.labels" . | nindent 4 }}
+type: Opaque
+data:
+  caCert: {{ b64enc $ca.Cert }}
+  tlsCert: {{ b64enc $webhookCert.Cert }}
+  tlsKey: {{ b64enc $webhookCert.Key }}
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: {{ include "node-app.fullname" . }}-hook
+  labels:
+    {{- include "node-app.labels" . | nindent 4 }}
+webhooks:
+- name: topokube.github.io
+  rules:
+    - apiGroups:
+      - ""
+      apiVersions:
+      - v1
+      operations:
+      - CREATE
+      resources:
+      - pods
+  failurePolicy: Ignore
+  clientConfig:
+    service:
+      name: {{ include "node-app.fullname" . }}
+      namespace: topokube
+      path: /kubernetes-webhook
+      port: {{ .Values.service.port }}
+    caBundle: {{ b64enc $ca.Cert }}
+  sideEffects: "None"
+  admissionReviewVersions: ["v1beta1"]

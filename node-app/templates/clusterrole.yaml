@@ -10,6 +10,7 @@ rules:
     resources:
       - namespaces
       - pods
+      - secrets
     verbs:
       - get
       - list

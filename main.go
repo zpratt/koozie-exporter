@@ -25,5 +25,6 @@ func main() {
 	http.Handle("/api/pods/", handlers.PodsHandler{
 		Service: podService,
 	})
-	http.ListenAndServe(":8080", nil)
+	http.Handle("/kubernetes-webhook", handlers.KubernetesWebhookHandler{})
+	http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
 }

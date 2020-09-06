@@ -45,3 +45,6 @@ docker-ui:
 	cd ui && \
 	docker build . -t topokube-ui:$(version) && \
 	docker run -p $(port):80 topokube-ui:$(version) &
+
+cause-deploy:
+	kubectl run -n default --rm -it api-test --image=ubuntu

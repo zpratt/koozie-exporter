@@ -1,5 +1,7 @@
 *
 
 !internal
+!handlers
+!factories
 !go.mod
 !main.go
