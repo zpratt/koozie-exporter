@@ -1,5 +1,5 @@
 {{ $ca := genCA "svc-cat-ca" 3650 }}
-{{ $webhookCert := genSignedCert "" nil nil 365 $ca }}
+{{ $webhookCert := genSignedCert "topokube-node-app.topokube.svc.cluster.local" nil (list "topokube-node-app.topokube.svc" "topokube-node-app.topokube") 365 $ca }}
 ---
 apiVersion: v1
 kind: Secret
