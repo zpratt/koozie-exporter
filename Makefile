@@ -1,5 +1,5 @@
 SHELL := /bin/bash -e
-version := 1.0.0
+version := 1.0.2
 host := 0.0.0.0
 port := 8080
 current_cluster := "$$(kind get clusters)"
@@ -48,3 +48,6 @@ docker-ui:
 
 cause-deploy:
 	kubectl run -n default --rm -it api-test --image=ubuntu
+
+verify:
+	go test ./...

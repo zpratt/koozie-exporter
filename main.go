@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"net/http"
 	"topokube/factories"
 	"topokube/handlers"
@@ -25,6 +26,8 @@ func main() {
 	http.Handle("/api/pods/", handlers.PodsHandler{
 		Service: podService,
 	})
-	http.Handle("/kubernetes-webhook", handlers.KubernetesWebhookHandler{})
+	http.Handle("/api/kubernetes-webhook", handlers.KubernetesWebhookHandler{})
+	http.Handle("/api/metrics", promhttp.Handler())
+
 	http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
 }
