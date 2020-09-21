@@ -1,5 +1,5 @@
 SHELL := /bin/bash -e
-version := 1.0.2
+version := 1.0.0
 host := 0.0.0.0
 port := 8080
 current_cluster := "$$(kind get clusters)"
