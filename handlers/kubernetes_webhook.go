@@ -2,8 +2,6 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promauto"
 	"io/ioutil"
 	v1 "k8s.io/api/admission/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -37,10 +35,6 @@ func (h KubernetesWebhookHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 	kind := admissionReview.Request.Kind
 
 	klog.Infof("captured a deployment %s", kind)
-	promauto.NewCounter(prometheus.CounterOpts{
-		Name: "topokube_somenamespace_podname_deployments_total",
-		Help: "Number of deployments",
-	})
 	json.NewEncoder(w).Encode(response)
 }
 
