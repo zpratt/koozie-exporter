@@ -4,4 +4,5 @@
 !handlers
 !factories
 !go.mod
+!go.sum
 !main.go
