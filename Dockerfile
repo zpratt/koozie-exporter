@@ -1,15 +1,15 @@
-FROM golang:1.14.7-alpine3.12 as builder
+FROM golang:1.17-alpine3.15 as builder
 
 WORKDIR /workspace
 RUN apk add --no-cache gcc libc-dev
 COPY . .
 
-RUN go test ./... && \
+RUN go test -v -cover ./... && \
   go build -a
 
 ##########################
 
-FROM alpine:3.12 as final
+FROM alpine:3.15.0 as final
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
