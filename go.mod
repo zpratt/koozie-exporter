@@ -1,6 +1,6 @@
 module topokube
 
-go 1.14
+go 1.17
 
 require (
 	k8s.io/api v0.17.0
