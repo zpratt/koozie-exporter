@@ -25,9 +25,9 @@ inkind:
 	docker build . -t topokube-ui:$(version)
 	docker build . -t topokube:$(version)
 	if [[ -z $(current_cluster) ]]; then kind create cluster --config cluster-config.yaml; fi
-	kind load docker-image topokube:$(version)
-	kind load docker-image topokube-ui:$(version)
-	kubectl config set current-context kind-kind
+	kind load docker-image --name koozie topokube:$(version)
+	kind load docker-image  --name koozie topokube-ui:$(version)
+	kubectl config set current-context kind-koozie
 	helmfile apply
 
 testkind:
