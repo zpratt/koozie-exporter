@@ -1,6 +1,7 @@
 package pods
 
 import (
+	"context"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -25,7 +26,8 @@ type PodService struct {
 }
 
 func (p PodService) ListPods(namespace string) []Pod {
-	podList, _ := p.Client.CoreV1().Pods(namespace).List(metav1.ListOptions{})
+	ctx := context.Background()
+	podList, _ := p.Client.CoreV1().Pods(namespace).List(ctx, metav1.ListOptions{})
 	result := make([]Pod, len(podList.Items))
 
 	for i, pod := range podList.Items {
