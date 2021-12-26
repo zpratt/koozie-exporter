@@ -47,7 +47,7 @@ docker-ui:
 	docker run -p $(port):80 topokube-ui:$(version) &
 
 cause-deploy:
-	kubectl run -n default --rm -it api-test --image=ubuntu
+	kubectl run --restart=Never --rm -i -n default api-test --image=alpine -- /bin/ash -c "echo hello"
 
 verify:
 	go test ./...
