@@ -1,4 +1,6 @@
 # ~~topokube~~ koozie
+[![Build](https://github.com/zpratt/topokube/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/zpratt/topokube/actions/workflows/docker-image.yml)
+
 Tracking deployment metrics for applications deployed to kubernetes.
 
 ## What is this?
