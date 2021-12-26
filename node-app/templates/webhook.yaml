@@ -35,7 +35,7 @@ webhooks:
     service:
       name: {{ include "node-app.fullname" . }}
       namespace: topokube
-      path: /kubernetes-webhook
+      path: /api/kubernetes-webhook
       port: {{ .Values.service.port }}
     caBundle: {{ b64enc $ca.Cert }}
   sideEffects: "None"

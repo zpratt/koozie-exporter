@@ -56,18 +56,23 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.uiImage.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - mountPath: /certificates
+              name: tls-certificates
           ports:
-            - name: http-ui
-              containerPort: 80
+            - name: http-ui-ssl
+              containerPort: 443
               protocol: TCP
           livenessProbe:
             httpGet:
+              scheme: "HTTPS"
               path: /ui/index.html
-              port: http-ui
+              port: http-ui-ssl
           readinessProbe:
             httpGet:
+              scheme: "HTTPS"
               path: /ui/index.html
-              port: http-ui
+              port: http-ui-ssl
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

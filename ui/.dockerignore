@@ -1,11 +1,9 @@
 *
 
-!src
 !pages
+!src
 
-!.babelrc
-!.eslintrc.js
+!next.config.js
+!nginx.conf
 !package.json
 !package-lock.json
-!nginx.conf
-!next.config.js

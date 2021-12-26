@@ -1,4 +1,4 @@
-FROM node:12.18.2-alpine as builder
+FROM node:14-alpine3.14 as builder
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
@@ -7,7 +7,7 @@ ENV CI=true
 COPY . .
 
 RUN apk --no-cache --virtual build-dependencies add \
-    python \
+    python3 \
     make \
     g++ \
     && npm ci --no-optional --no-cache \
@@ -16,7 +16,7 @@ RUN apk --no-cache --virtual build-dependencies add \
 
 #######################################
 
-FROM nginx:1.17.8-alpine
+FROM nginx:1.21.4-alpine
 
 RUN mkdir -p /var/www/ui
 WORKDIR /var/www/ui
