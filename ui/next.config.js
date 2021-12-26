@@ -1,6 +1,6 @@
-const isProd = process.env.NODE_ENV === 'production'
+const productionPath = '/ui';
 
 module.exports = {
-    assetPrefix: isProd ? '/ui' : '',
-    publicRuntimeConfig: '/ui'
-}
+    assetPrefix: `${productionPath}/`,
+    basePath: productionPath
+};

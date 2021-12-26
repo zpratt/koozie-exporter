@@ -8,7 +8,7 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http-ui
+      targetPort: 443
       protocol: TCP
       name: http-ui
   selector:
