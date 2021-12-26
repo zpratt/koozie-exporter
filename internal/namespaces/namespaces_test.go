@@ -1,6 +1,7 @@
 package namespaces
 
 import (
+	"context"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/fake"
@@ -15,7 +16,7 @@ func TestListNamespaces(t *testing.T) {
 			Name: someNamespace,
 		},
 	}
-	client.CoreV1().Namespaces().Create(namespace)
+	client.CoreV1().Namespaces().Create(context.Background(), namespace, metav1.CreateOptions{})
 
 	namespaceService := NamespaceService{
 		Client: client,

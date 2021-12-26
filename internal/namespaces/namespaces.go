@@ -1,6 +1,7 @@
 package namespaces
 
 import (
+	"context"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
@@ -18,7 +19,8 @@ type NamespaceService struct {
 }
 
 func (n NamespaceService) ListNamespaces() []Namespace {
-	namespaceList, _ := n.Client.CoreV1().Namespaces().List(metav1.ListOptions{})
+	ctx := context.Background()
+	namespaceList, _ := n.Client.CoreV1().Namespaces().List(ctx, metav1.ListOptions{})
 	result := make([]Namespace, len(namespaceList.Items))
 
 	for i, namespace := range namespaceList.Items {

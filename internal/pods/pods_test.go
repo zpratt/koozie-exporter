@@ -1,6 +1,7 @@
 package pods
 
 import (
+	"context"
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes/fake"
@@ -75,8 +76,9 @@ func givenContainers() DummyContainerData {
 }
 
 func givenANamespaceAndPod(client *fake.Clientset, namespace *v1.Namespace, someNamespace string, podSpec *v1.Pod) {
-	client.CoreV1().Namespaces().Create(namespace)
-	client.CoreV1().Pods(someNamespace).Create(podSpec)
+	ctx := context.Background()
+	client.CoreV1().Namespaces().Create(ctx, namespace, metav1.CreateOptions{})
+	client.CoreV1().Pods(someNamespace).Create(ctx, podSpec, metav1.CreateOptions{})
 }
 
 func givenAPodSpecInNamespace(containers DummyContainerData, somePodName string, someNamespace string) *v1.Pod {
