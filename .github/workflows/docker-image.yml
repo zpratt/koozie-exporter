@@ -38,4 +38,6 @@ jobs:
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag koozie:${{ github.sha }}
       - name: lint helm chart
-        run: ct lint
+        run: |
+          cd node-app
+          ct lint
