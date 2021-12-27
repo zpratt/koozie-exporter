@@ -34,7 +34,7 @@ func TestKubernetesWebhookHandler_always_approves(t *testing.T) {
 	handler := KubernetesWebhookHandler{}
 
 	handler.ServeHTTP(recorder, request)
-	json.Unmarshal(recorder.Body.Bytes(), &admissionResponse)
+	_ = json.Unmarshal(recorder.Body.Bytes(), &admissionResponse)
 
 	if admissionResponse.Allowed != true {
 		log.Fatalf("admission response was not allowed: %s", admissionResponse)

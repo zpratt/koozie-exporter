@@ -16,7 +16,7 @@ func TestListNamespaces(t *testing.T) {
 			Name: someNamespace,
 		},
 	}
-	client.CoreV1().Namespaces().Create(context.Background(), namespace, metav1.CreateOptions{})
+	_, _ = client.CoreV1().Namespaces().Create(context.Background(), namespace, metav1.CreateOptions{})
 
 	namespaceService := NamespaceService{
 		Client: client,

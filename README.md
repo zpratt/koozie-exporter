@@ -14,7 +14,7 @@ I'm still hacking on what this should look like. This is currently POC quality, 
 ## Prerequisite Steps:
 
 1. install docker (*yes this is currently only working with docker*)
-2. `brew update && brew install helm kind helmfile`
+2. `brew update && brew install helm kind helmfile golangci-lint`
 3. `helm plugin install https://github.com/databus23/helm-diff`
 
 ## Running In Kind:
