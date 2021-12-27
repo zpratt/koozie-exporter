@@ -12,5 +12,5 @@ type NamespaceHander struct {
 
 func (n NamespaceHander) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	namespaceList := n.Service.ListNamespaces()
-	json.NewEncoder(w).Encode(namespaceList)
+	_ = json.NewEncoder(w).Encode(namespaceList)
 }
