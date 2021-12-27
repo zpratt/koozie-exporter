@@ -6,10 +6,10 @@ ENV CI=true
 
 COPY . .
 
-RUN apk --no-cache --virtual build-dependencies add \
-    python3 \
-    make \
-    g++ \
+RUN apk update && apk --no-cache --virtual build-dependencies add \
+    python3=3.9.5-r2 \
+    make=4.3-r0 \
+    g++=10.3.1_git20210424-r2 \
     && npm ci --no-optional --no-cache \
     && npm run build \
     && apk del build-dependencies
