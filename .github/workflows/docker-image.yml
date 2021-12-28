@@ -40,4 +40,4 @@ jobs:
       - name: lint helm chart
         run: |
           cd node-app
-          ct lint
+          helm lint
