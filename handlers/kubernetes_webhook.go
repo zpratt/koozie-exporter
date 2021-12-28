@@ -21,21 +21,18 @@ func (h KubernetesWebhookHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 		Allowed: true,
 	}
 
-	body, err := ioutil.ReadAll(r.Body)
-	deserializer.Decode(body, nil, &admissionReview)
+	body, _ := ioutil.ReadAll(r.Body)
+	_, _, decodeErr := deserializer.Decode(body, nil, &admissionReview)
 
-	if err != nil {
-		klog.Errorf("error handling request %s", err.Error())
-		klog.Errorf("request was %s", r.Body)
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+	if decodeErr == nil {
+		kind := admissionReview.Request.Kind
+		klog.Infof("captured a deployment %s", kind)
+		_ = json.NewEncoder(w).Encode(response)
+	} else {
+		klog.Errorf("received malformed webhook request")
+		response.Allowed = false
+		_ = json.NewEncoder(w).Encode(response)
 	}
-
-	klog.Infof("captured a deployment")
-	kind := admissionReview.Request.Kind
-
-	klog.Infof("captured a deployment %s", kind)
-	json.NewEncoder(w).Encode(response)
 }
 
 func createDeserializer() runtime.Decoder {

@@ -17,5 +17,5 @@ func (p PodsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	podList := p.Service.ListPods(namespace)
 
-	json.NewEncoder(w).Encode(podList)
+	_ = json.NewEncoder(w).Encode(podList)
 }

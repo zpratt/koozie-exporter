@@ -15,7 +15,7 @@ I'm still hacking on what this should look like. This is currently POC quality, 
 
 install docker (*yes this is currently only working with docker*)
 ```bash
-brew update && brew install helm kind helmfile
+brew update && brew install helm kind helmfile golangci-lint
 helm plugin install https://github.com/databus23/helm-diff
 ```
 

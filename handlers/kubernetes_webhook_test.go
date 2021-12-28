@@ -7,7 +7,6 @@ import (
 	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
-	"log"
 	"net/http/httptest"
 	"testing"
 )
@@ -34,10 +33,32 @@ func TestKubernetesWebhookHandler_always_approves(t *testing.T) {
 	handler := KubernetesWebhookHandler{}
 
 	handler.ServeHTTP(recorder, request)
-	json.Unmarshal(recorder.Body.Bytes(), &admissionResponse)
+	_ = json.Unmarshal(recorder.Body.Bytes(), &admissionResponse)
 
 	if admissionResponse.Allowed != true {
-		log.Fatalf("admission response was not allowed: %s", admissionResponse)
+		t.Fatalf("admission response was not allowed: %s", admissionResponse)
+	}
+}
+
+func TestKubernetesWebhookHandler_should_handle_malformed_requests(t *testing.T) {
+	malformedRequest := []byte("malformed")
+	admissionResponse := &v1beta1.AdmissionResponse{}
+	recorder := httptest.NewRecorder()
+	recorder.Body = bytes.NewBuffer(nil)
+
+	request := httptest.NewRequest("POST", "/api/kubernetes-webhook", bytes.NewBuffer(malformedRequest))
+
+	handler := KubernetesWebhookHandler{}
+
+	handler.ServeHTTP(recorder, request)
+	_ = json.Unmarshal(recorder.Body.Bytes(), &admissionResponse)
+
+	if len(recorder.Body.Bytes()) == 0 {
+		t.Fatalf("no response was returned from webhook")
+	}
+
+	if admissionResponse.Allowed != false {
+		t.Fatalf("admission response was not allowed: %s", admissionResponse)
 	}
 }
 

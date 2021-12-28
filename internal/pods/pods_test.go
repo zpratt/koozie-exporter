@@ -77,8 +77,8 @@ func givenContainers() DummyContainerData {
 
 func givenANamespaceAndPod(client *fake.Clientset, namespace *v1.Namespace, someNamespace string, podSpec *v1.Pod) {
 	ctx := context.Background()
-	client.CoreV1().Namespaces().Create(ctx, namespace, metav1.CreateOptions{})
-	client.CoreV1().Pods(someNamespace).Create(ctx, podSpec, metav1.CreateOptions{})
+	_, _ = client.CoreV1().Namespaces().Create(ctx, namespace, metav1.CreateOptions{})
+	_, _ = client.CoreV1().Pods(someNamespace).Create(ctx, podSpec, metav1.CreateOptions{})
 }
 
 func givenAPodSpecInNamespace(containers DummyContainerData, somePodName string, someNamespace string) *v1.Pod {

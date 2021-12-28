@@ -1,7 +1,7 @@
 FROM golang:1.17-alpine3.15 as builder
 
 WORKDIR /workspace
-RUN apk add --no-cache gcc libc-dev
+RUN apk update && apk add --no-cache gcc=10.3.1_git20211027-r0 libc-dev=0.7.2-r3
 COPY . .
 
 RUN go test -v -cover ./... && \

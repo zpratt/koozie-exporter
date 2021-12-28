@@ -1,6 +1,7 @@
 package main
 
 import (
+	"k8s.io/klog/v2"
 	"net/http"
 	"topokube/factories"
 	"topokube/handlers"
@@ -27,5 +28,8 @@ func main() {
 	})
 	http.Handle("/api/kubernetes-webhook", handlers.KubernetesWebhookHandler{})
 
-	http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
+	err := http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
+	if err != nil {
+		klog.Error(err)
+	}
 }

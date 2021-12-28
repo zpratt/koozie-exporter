@@ -8,8 +8,36 @@ on:
 
 jobs:
   build:
+    name: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: go lint
+        uses: golangci/golangci-lint-action@v2
+      - name: Set up Helm
+        uses: azure/setup-helm@v1
+        with:
+          version: v3.7.2
+      - name: Setup python (for Helm)
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Set up chart-testing (for Helm)
+        uses: helm/chart-testing-action@v2.1.0
+      - name: lint api dockerfile
+        uses: hadolint/hadolint-action@v1.6.0
+        with:
+          dockerfile: Dockerfile
+      - name: lint ui dockerfile
+        uses: hadolint/hadolint-action@v1.6.0
+        with:
+          dockerfile: ui/Dockerfile
+      - name: verify
+        run: make verify
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag koozie:${{ github.sha }}
+      - name: lint helm chart
+        run: |
+          cd node-app
+          helm lint
