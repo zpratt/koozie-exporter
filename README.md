@@ -22,7 +22,7 @@ helm plugin install https://github.com/databus23/helm-diff`
 ## Running In Kind:
 
 ```bash
-sudo sh -c "echo '127.0.0.1 topokube.local' >> /etc/hosts"`
+sudo sh -c "echo '127.0.0.1 topokube.local' >> /etc/hosts"
 make inkind
 open https://topokube.local:30443/ui/index.html
 ```
@@ -30,6 +30,6 @@ open https://topokube.local:30443/ui/index.html
 ## Cause a deployment and watch the output
 
 ```bash
-make cause-deploy`
-kubectl logs -n topokube -l app.kubernetes.io/name=node-app -c node-app`
+make cause-deploy
+kubectl logs -n topokube -l app.kubernetes.io/name=node-app -c node-app
 ```
