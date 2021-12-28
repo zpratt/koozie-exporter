@@ -13,17 +13,23 @@ I'm still hacking on what this should look like. This is currently POC quality, 
 
 ## Prerequisite Steps:
 
-1. install docker (*yes this is currently only working with docker*)
-2. `brew update && brew install helm kind helmfile golangci-lint`
-3. `helm plugin install https://github.com/databus23/helm-diff`
+install docker (*yes this is currently only working with docker*)
+```bash
+brew update && brew install helm kind helmfile golangci-lint
+helm plugin install https://github.com/databus23/helm-diff
+```
 
 ## Running In Kind:
 
-1. `sudo sh -c "echo '127.0.0.1 topokube.local' >> /etc/hosts"`
-2. `make inkind`
-3. `open https://topokube.local:30443/ui/index.html`
+```bash
+sudo sh -c "echo '127.0.0.1 topokube.local' >> /etc/hosts"
+make inkind
+open https://topokube.local:30443/ui/index.html
+```
 
 ## Cause a deployment and watch the output
 
-1. `make cause-deploy`
-2. `kubectl logs -n topokube -l app.kubernetes.io/name=node-app -c node-app`
+```bash
+make cause-deploy
+kubectl logs -n topokube -l app.kubernetes.io/name=node-app -c node-app
+```
