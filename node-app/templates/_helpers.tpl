@@ -61,3 +61,10 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Generate the fully qualified name of the service
+*/}}
+{{- define "node-app.fqn" -}}
+{{- default (printf "%s.%s.%s" (include "node-app.fullname" .) .Release.Namespace "svc.cluster.local") -}}
+{{- end }}

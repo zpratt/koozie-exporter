@@ -1,5 +1,5 @@
-{{ $ca := genCA "svc-cat-ca" 3650 }}
-{{ $webhookCert := genSignedCert "topokube-node-app.topokube.svc.cluster.local" nil (list "topokube-node-app.topokube.svc" "topokube-node-app.topokube") 365 $ca }}
+{{ $ca := genCA (include "node-app.fullname" .) 3650 }}
+{{ $webhookCert := genSignedCert (include "node-app.fqn" .) nil (list (printf "%s.%s.svc" (include "node-app.fullname" .) .Release.Namespace) (include "node-app.fullname" .)) 365 $ca }}
 ---
 apiVersion: v1
 kind: Secret
