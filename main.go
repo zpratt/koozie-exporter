@@ -1,6 +1,9 @@
 package main
 
 import (
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/prometheus/common/version"
 	"k8s.io/klog/v2"
 	"net/http"
 	"topokube/factories"
@@ -12,6 +15,10 @@ import (
 func main() {
 	clientGoFactory := factories.ClientGoFactory{}
 	client := clientGoFactory.New()
+
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(version.NewCollector("koozie"))
+
 	namespaceService := namespaces.NamespaceService{
 		Client: client,
 	}
@@ -19,14 +26,18 @@ func main() {
 		Client: client,
 	}
 
+	http.Handle("/health", handlers.HealthHandler{})
+	http.Handle(
+		"/metrics",
+		promhttp.HandlerFor(prometheus.Gatherers{registry}, promhttp.HandlerOpts{Registry: registry}))
+
 	http.Handle("/api", handlers.NamespaceHander{
 		Service: namespaceService,
 	})
-	http.Handle("/health", handlers.HealthHandler{})
 	http.Handle("/api/pods/", handlers.PodsHandler{
 		Service: podService,
 	})
-	http.Handle("/api/kubernetes-webhook", handlers.KubernetesWebhookHandler{})
+	http.Handle("/api/kubernetes-webhook", handlers.NewKubernetesWebhookHandler(registry))
 
 	err := http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
 	if err != nil {

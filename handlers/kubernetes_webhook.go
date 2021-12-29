@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"github.com/prometheus/client_golang/prometheus"
 	"io/ioutil"
 	v1 "k8s.io/api/admission/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -11,6 +12,23 @@ import (
 )
 
 type KubernetesWebhookHandler struct {
+	registry        *prometheus.Registry
+	deploymentCount prometheus.Counter
+}
+
+func NewKubernetesWebhookHandler(registry *prometheus.Registry) KubernetesWebhookHandler {
+	counterOpts := prometheus.CounterOpts{
+		Name: "koozie_deployment_count",
+		Help: "Number of deployments",
+	}
+
+	deploymentCollector := prometheus.NewCounter(counterOpts)
+	registry.MustRegister(deploymentCollector)
+
+	return KubernetesWebhookHandler{
+		deploymentCount: deploymentCollector,
+		registry:        registry,
+	}
 }
 
 func (h KubernetesWebhookHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -20,7 +38,6 @@ func (h KubernetesWebhookHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 	response := v1.AdmissionResponse{
 		Allowed: true,
 	}
-
 	body, _ := ioutil.ReadAll(r.Body)
 	_, _, decodeErr := deserializer.Decode(body, nil, &admissionReview)
 
@@ -28,6 +45,7 @@ func (h KubernetesWebhookHandler) ServeHTTP(w http.ResponseWriter, r *http.Reque
 		kind := admissionReview.Request.Kind
 		klog.Infof("captured a deployment %s", kind)
 		_ = json.NewEncoder(w).Encode(response)
+		h.deploymentCount.Inc()
 	} else {
 		klog.Errorf("received malformed webhook request")
 		response.Allowed = false
