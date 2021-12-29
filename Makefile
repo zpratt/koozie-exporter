@@ -48,6 +48,7 @@ docker-ui:
 
 cause-deploy:
 	kubectl run --restart=Never --rm -i -n default api-test --image=alpine -- /bin/ash -c "echo hello"
+	curl -k https://topokube.local:30443/metrics | grep koozie
 
 verify:
 	golangci-lint run ./...
