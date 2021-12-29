@@ -10,7 +10,7 @@ clean:
 	rm -rf **/out
 	rm -rf **/.cache
 	rm -f topokube
-	kind delete cluster
+	kind delete cluster --name koozie
 	docker rmi $$(docker images -f "reference=topokube:*" -q)
 	docker rmi $$(docker images -f "reference=topokube-ui:*" -q)
 	docker system prune -f
@@ -48,6 +48,7 @@ docker-ui:
 
 cause-deploy:
 	kubectl run --restart=Never --rm -i -n default api-test --image=alpine -- /bin/ash -c "echo hello"
+	curl -k https://topokube.local:30443/metrics | grep koozie
 
 verify:
 	golangci-lint run ./...
