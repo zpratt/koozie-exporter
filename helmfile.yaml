@@ -17,9 +17,9 @@ releases:
         value: 30443
   - name: topokube
     namespace: topokube
-    chart: ./node-app
+    chart: ./charts/node-app
     values:
-      - "./node-app/values.yaml"
+      - "./charts/node-app/values.yaml"
     wait: true
     waitForJobs: true
     createNamespace: true
