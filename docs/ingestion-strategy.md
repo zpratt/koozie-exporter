@@ -15,6 +15,7 @@
   * this could get very complex, depending on what datasource(s) is to be used to track failures
   * simple MVP approach: track pod restarts
   * more elaborate approaches could get signals from logging systems. maybe loki has something cool for this
+  * **working idea**: use prometheus alert manager webhooks to trigger change failures
 * MTTR
   * dependent upon tracking the start and stop time of incidents
   * once change failure rate is figured out, it provides the data necessary to track MTTR
