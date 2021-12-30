@@ -29,9 +29,12 @@ make inkind
 open https://topokube.local:30443/ui/index.html
 ```
 
-## Cause a deployment and watch the output
+## Demo Time - Cause a deployment and watch the output
 
 ```bash
 make cause-deploy
-kubectl logs -n topokube -l app.kubernetes.io/name=koozie-exporter -c koozie-exporter
 ```
+
+What does this do? It runs a trivial container, which simulates the deployment of an application. It then makes a request to /metrics to show the current deployment count.
+
+Kubernetes creates a pod for you, which triggers an event that koozie-exporter watches for. Koozie uses the prometheus client to capture metrics. A metrics endpoint (/metrics) is exposed, so that you can scrape these metrics using your own prometheus instance.
