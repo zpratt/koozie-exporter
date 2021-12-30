@@ -1,7 +1,9 @@
-# ~~topokube~~ koozie
+# koozie-exporter
 [![Build](https://github.com/zpratt/topokube/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/zpratt/topokube/actions/workflows/docker-image.yml)
 
-Tracking deployment metrics for applications deployed to kubernetes.
+<img width="557" alt="logo" src="https://user-images.githubusercontent.com/5916561/147760399-363e7478-23af-4853-a1f1-9599ced7ec21.png">
+
+Tracking the flow of idea to production for applications deployed to kubernetes.
 
 ## What is this?
 
