@@ -31,5 +31,5 @@ open https://topokube.local:30443/ui/index.html
 
 ```bash
 make cause-deploy
-kubectl logs -n topokube -l app.kubernetes.io/name=node-app -c node-app
+kubectl logs -n topokube -l app.kubernetes.io/name=koozie-exporter -c koozie-exporter
 ```

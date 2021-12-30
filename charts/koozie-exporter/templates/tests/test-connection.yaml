@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "koozie-exporter.fullname" . }}-test-connection"
+  labels:
+{{ include "koozie-exporter.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: conn-test
+      image: alpine/k8s:1.20.7
+      command: ['curl']
+      args:  ['-k', 'https://{{ include "koozie-exporter.fullname" . }}:{{ .Values.service.port }}/health']
+  restartPolicy: Never

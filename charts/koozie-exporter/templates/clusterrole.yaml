@@ -1,9 +1,9 @@
 kind: ClusterRole
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: {{ include "node-app.fullname" . }}-role
+  name: {{ include "koozie-exporter.fullname" . }}-role
   labels:
-    {{- include "node-app.labels" . | nindent 4 }}
+    {{- include "koozie-exporter.labels" . | nindent 4 }}
 rules:
   - apiGroups:
       - ""

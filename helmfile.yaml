@@ -17,9 +17,9 @@ releases:
         value: 30443
   - name: topokube
     namespace: topokube
-    chart: ./node-app
+    chart: ./charts/koozie-exporter
     values:
-      - "./node-app/values.yaml"
+      - "./charts/koozie-exporter/values.yaml"
     wait: true
     waitForJobs: true
     createNamespace: true
