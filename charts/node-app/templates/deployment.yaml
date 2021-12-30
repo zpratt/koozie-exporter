@@ -1,26 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "node-app.fullname" . }}
+  name: {{ include "koozie-exporter.fullname" . }}
   labels:
-    {{- include "node-app.labels" . | nindent 4 }}
+    {{- include "koozie-exporter.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "node-app.selectorLabels" . | nindent 6 }}
+      {{- include "koozie-exporter.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
         checksum/webhook: {{ include (print $.Template.BasePath "/webhook.yaml") . | sha256sum }}
       labels:
-        {{- include "node-app.selectorLabels" . | nindent 8 }}
+        {{- include "koozie-exporter.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "node-app.serviceAccountName" . }}
+      serviceAccountName: {{ include "koozie-exporter.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -80,7 +80,7 @@ spec:
       volumes:
         - name: tls-certificates
           secret:
-            secretName: {{ include "node-app.fullname" . }}-webhook-secret
+            secretName: {{ include "koozie-exporter.fullname" . }}-webhook-secret
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

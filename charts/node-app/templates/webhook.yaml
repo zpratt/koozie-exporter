@@ -1,12 +1,12 @@
-{{ $ca := genCA (include "node-app.fullname" .) 3650 }}
-{{ $webhookCert := genSignedCert (include "node-app.fqn" .) nil (list (printf "%s.%s.svc" (include "node-app.fullname" .) .Release.Namespace) (include "node-app.fullname" .)) 365 $ca }}
+{{ $ca := genCA (include "koozie-exporter.fullname" .) 3650 }}
+{{ $webhookCert := genSignedCert (include "koozie-exporter.fqn" .) nil (list (printf "%s.%s.svc" (include "koozie-exporter.fullname" .) .Release.Namespace) (include "koozie-exporter.fullname" .)) 365 $ca }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{ include "node-app.fullname" . }}-webhook-secret
+  name: {{ include "koozie-exporter.fullname" . }}-webhook-secret
   labels:
-  {{- include "node-app.labels" . | nindent 4 }}
+  {{- include "koozie-exporter.labels" . | nindent 4 }}
 type: Opaque
 data:
   caCert: {{ b64enc $ca.Cert }}
@@ -16,9 +16,9 @@ data:
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
-  name: {{ include "node-app.fullname" . }}-hook
+  name: {{ include "koozie-exporter.fullname" . }}-hook
   labels:
-    {{- include "node-app.labels" . | nindent 4 }}
+    {{- include "koozie-exporter.labels" . | nindent 4 }}
 webhooks:
 - name: topokube.github.io
   rules:
@@ -33,7 +33,7 @@ webhooks:
   failurePolicy: Ignore
   clientConfig:
     service:
-      name: {{ include "node-app.fullname" . }}
+      name: {{ include "koozie-exporter.fullname" . }}
       namespace: topokube
       path: /api/kubernetes-webhook
       port: {{ .Values.service.port }}

@@ -1,9 +1,9 @@
 kind: PodSecurityPolicy
 apiVersion: policy/v1beta1
 metadata:
-  name: {{ include "node-app.fullname" . }}-psp
+  name: {{ include "koozie-exporter.fullname" . }}-psp
   labels:
-    {{- include "node-app.labels" . | nindent 4 }}
+    {{- include "koozie-exporter.labels" . | nindent 4 }}
 spec:
   privileged: false
   runAsUser:
