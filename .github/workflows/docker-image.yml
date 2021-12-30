@@ -39,5 +39,5 @@ jobs:
         run: docker build . --file Dockerfile --tag koozie:${{ github.sha }}
       - name: lint helm chart
         run: |
-          cd ./charts/node-app
+          cd ./charts/koozie-exporter
           helm lint
