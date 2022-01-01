@@ -13,11 +13,11 @@ spec:
       {{- include "koozie-exporter.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-      {{- with .Values.podAnnotations }}
       annotations:
         checksum/webhook: {{ include (print $.Template.BasePath "/webhook.yaml") . | sha256sum }}
+        {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
       labels:
         {{- include "koozie-exporter.selectorLabels" . | nindent 8 }}
     spec:

@@ -86,3 +86,6 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+prometheus:
+  namespace: monitoring

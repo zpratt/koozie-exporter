@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ include "koozie-exporter.fullname" . }}-mon
+  namespace: {{ .Values.prometheus.namespace }}
+  labels:
+    app: {{ include "koozie-exporter.fullname" . }}
+    {{- include "koozie-exporter.labels" . | nindent 4 }}
+spec:
+  jobLabel: koozie-exporter-metrics
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "koozie-exporter.name" . }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - port: http
+      interval: 15s
+      scheme: https
+      tlsConfig:
+        caFile: /etc/prometheus/secrets/topokube-koozie-exporter-webhook-secret/caCert
+        certFile: /etc/prometheus/secrets/topokube-koozie-exporter-webhook-secret/tlsCert
+        keyFile: /etc/prometheus/secrets/topokube-koozie-exporter-webhook-secret/tlsKey
+        insecureSkipVerify: true
+        serverName: {{ include "koozie-exporter.fqn" . }}
