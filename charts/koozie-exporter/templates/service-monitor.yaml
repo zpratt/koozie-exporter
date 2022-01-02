@@ -1,3 +1,4 @@
+{{- if .Values.prometheus.serviceMonitor.enabled }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -24,3 +25,4 @@ spec:
         keyFile: /etc/prometheus/secrets/topokube-koozie-exporter-webhook-secret/tlsKey
         insecureSkipVerify: true
         serverName: {{ include "koozie-exporter.fqn" . }}
+{{- end }}

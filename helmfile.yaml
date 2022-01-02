@@ -33,6 +33,9 @@ releases:
     chart: ./charts/koozie-exporter
     values:
       - "./charts/koozie-exporter/values.yaml"
+    set:
+      - name: prometheus.serviceMonitor.enabled
+        value: true
     wait: true
     waitForJobs: true
     createNamespace: true

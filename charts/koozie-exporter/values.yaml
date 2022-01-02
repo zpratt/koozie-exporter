@@ -89,3 +89,5 @@ affinity: {}
 
 prometheus:
   namespace: monitoring
+  serviceMonitor:
+    enabled: true
