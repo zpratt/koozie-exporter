@@ -14,6 +14,7 @@ require (
 )
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.11.0
 	github.com/prometheus/client_golang v1.11.0
 	github.com/prometheus/common v0.26.0
 )

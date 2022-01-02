@@ -3,6 +3,7 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/brianvoe/gofakeit/v6"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/testutil"
 	"k8s.io/api/admission/v1beta1"
@@ -43,7 +44,7 @@ func TestKubernetesWebhookHandler_always_approves(t *testing.T) {
 }
 
 func Test_should_update_count_of_deployments(t *testing.T) {
-	somePodName := "somePod"
+	somePodName := gofakeit.LetterN(10)
 	someContainers := givenContainers()
 	podSpec := givenAPodSpecInNamespace(someContainers, somePodName)
 	podAsJson, _ := json.Marshal(podSpec)
@@ -59,7 +60,6 @@ func Test_should_update_count_of_deployments(t *testing.T) {
 
 	gatherers := prometheus.Gatherers{actualRegistry}
 	actualMetricLookup, err := testutil.GatherAndCount(gatherers, "koozie_deployment_count")
-
 	if err != nil {
 		t.Fatalf(err.Error())
 	}
@@ -68,9 +68,11 @@ func Test_should_update_count_of_deployments(t *testing.T) {
 		t.Fatalf("metric not registered")
 	}
 
-	actualDeploymentCount := testutil.ToFloat64(handler.deploymentCount)
-	if actualDeploymentCount != 1 {
-		t.Fatalf("deployment count not incremented, actual value is %f", actualDeploymentCount)
+	actualDeploymentCount, _ := handler.deploymentCount.GetMetricWith(prometheus.Labels{"deployment_name": somePodName})
+	actualDeploymentCountVal := testutil.ToFloat64(actualDeploymentCount)
+
+	if actualDeploymentCountVal != 1 {
+		t.Fatalf("deployment count not incremented, actual value is %f", actualDeploymentCountVal)
 	}
 }
 
