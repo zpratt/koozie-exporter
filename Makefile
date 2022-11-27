@@ -10,10 +10,11 @@ clean:
 	rm -rf **/out
 	rm -rf **/.cache
 	rm -f topokube
+	go clean -cache
+	go clean
 	kind delete cluster --name koozie
-	docker rmi $$(docker images -f "reference=topokube:*" -q)
-	docker rmi $$(docker images -f "reference=topokube-ui:*" -q)
-	docker system prune -f
+	docker rmi -f $$(docker images -f "reference=topokube:*" -q) || echo "no matching images"
+	docker rmi -f $$(docker images -f "reference=topokube-ui:*" -q) || echo "no matching images"
 docker:
 	cd ui && \
 	docker build . -t topokube-ui:$(version)
