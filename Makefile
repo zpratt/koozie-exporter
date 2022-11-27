@@ -28,7 +28,7 @@ inkind:
 	kind load docker-image --name koozie topokube:$(version)
 	kind load docker-image  --name koozie topokube-ui:$(version)
 	kubectl config set current-context kind-koozie
-	helmfile apply
+	helmfile apply --skip-diff-on-install
 
 testkind:
 	curl -H "HOST:topokube.local" http://0.0.0.0:30080/
