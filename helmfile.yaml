@@ -3,6 +3,8 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: prometheus-community
     url: https://prometheus-community.github.io/helm-charts
+  - name: jetstack
+    url: https://charts.jetstack.io
 releases:
   - name: nginx-ingress
     namespace: nginx
@@ -27,7 +29,15 @@ releases:
         value: topokube-koozie-exporter-webhook-secret
       - name: prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues
         value: false
-    wait: true
+      - name: installCRDs
+        value: true
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    createNamespace: true
+    set:
+      - name: installCRDs
+        value: true
   - name: topokube
     namespace: topokube
     chart: ./charts/koozie-exporter
