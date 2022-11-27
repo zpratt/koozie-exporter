@@ -11,16 +11,16 @@ jobs:
     name: Verify Backend
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v2
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
           go-version: 1.17
-      - name: go lint
-        uses: golangci/golangci-lint-action@v2
-      - name: verify
-        run: make verify
+      - name: Lint
+        uses: golangci/golangci-lint-action@v3
+      - name: Unit Test
+        run: go test -v -count=1 -cover ./...
   verify-backend-docker:
     name: Verify Backend Docker
     runs-on: ubuntu-latest
