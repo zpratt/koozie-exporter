@@ -8,8 +8,11 @@ repositories:
 releases:
   - name: nginx-ingress
     namespace: nginx
+    atomic: true
     chart: ingress-nginx/ingress-nginx
     createNamespace: true
+    wait: true
+    waitForJobs: true
     set:
       - name: controller.kind
         value: DaemonSet
@@ -38,7 +41,13 @@ releases:
     set:
       - name: installCRDs
         value: true
+    wait: true
   - name: topokube
+    needs:
+      - nginx/nginx-ingress
+      - cert-manager/cert-manager
+    atomic: true
+    cleanupOnFail: true
     namespace: topokube
     chart: ./charts/koozie-exporter
     values:
