@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "koozie-exporter.fullname" . }}-cert
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ include "koozie-exporter.fullname" . }}-webhook-secret
+  subject:
+    organizations:
+      - koozie-exporter
+  dnsNames:
+    - {{ include "koozie-exporter.fullname" . }}.{{ .Release.Namespace }}.svc
+  issuerRef:
+    name: {{ include "koozie-exporter.fullname" . }}-issuer

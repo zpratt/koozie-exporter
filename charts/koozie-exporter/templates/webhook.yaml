@@ -1,35 +1,9 @@
-{{ $ca := genCA (include "koozie-exporter.fullname" .) 3650 }}
-{{ $webhookCert := genSignedCert (include "koozie-exporter.fqn" .) nil (list (printf "%s.%s.svc" (include "koozie-exporter.fullname" .) .Release.Namespace) (include "koozie-exporter.fullname" .)) 365 $ca }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ include "koozie-exporter.fullname" . }}-webhook-secret
-  labels:
-  {{- include "koozie-exporter.labels" . | nindent 4 }}
-type: Opaque
-data:
-  caCert: {{ b64enc $ca.Cert }}
-  tlsCert: {{ b64enc $webhookCert.Cert }}
-  tlsKey: {{ b64enc $webhookCert.Key }}
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{ include "koozie-exporter.fullname" . }}-webhook-secret
-  namespace: {{ .Values.prometheus.namespace }}
-  labels:
-  {{- include "koozie-exporter.labels" . | nindent 4 }}
-type: Opaque
-data:
-  caCert: {{ b64enc $ca.Cert }}
-  tlsCert: {{ b64enc $webhookCert.Cert }}
-  tlsKey: {{ b64enc $webhookCert.Key }}
----
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingWebhookConfiguration
 metadata:
   name: {{ include "koozie-exporter.fullname" . }}-hook
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/{{ include "koozie-exporter.fullname" . }}-cert
   labels:
     {{- include "koozie-exporter.labels" . | nindent 4 }}
 webhooks:
@@ -50,6 +24,5 @@ webhooks:
       namespace: topokube
       path: /api/kubernetes-webhook
       port: {{ .Values.service.port }}
-    caBundle: {{ b64enc $ca.Cert }}
   sideEffects: "None"
-  admissionReviewVersions: ["v1beta1"]
+  admissionReviewVersions: ["v1"]
