@@ -1,11 +1,18 @@
 repositories:
-  - name: stable
-    url: https://charts.helm.sh/stable
+  - name: ingress-nginx
+    url: https://kubernetes.github.io/ingress-nginx
+  - name: prometheus-community
+    url: https://prometheus-community.github.io/helm-charts
+  - name: jetstack
+    url: https://charts.jetstack.io
 releases:
   - name: nginx-ingress
     namespace: nginx
-    chart: stable/nginx-ingress
+    atomic: true
+    chart: ingress-nginx/ingress-nginx
     createNamespace: true
+    wait: true
+    waitForJobs: true
     set:
       - name: controller.kind
         value: DaemonSet
@@ -15,11 +22,39 @@ releases:
         value: 30080
       - name: controller.service.nodePorts.https
         value: 30443
+  - name: prometheus-operator
+    namespace: monitoring
+    chart: prometheus-community/kube-prometheus-stack
+    createNamespace: true
+    disableValidation: true
+    set:
+      - name: prometheus.prometheusSpec.secrets[0]
+        value: topokube-koozie-exporter-webhook-secret
+      - name: prometheus.prometheusSpec.serviceMonitorSelectorNilUsesHelmValues
+        value: false
+      - name: installCRDs
+        value: true
+  - name: cert-manager
+    namespace: cert-manager
+    chart: jetstack/cert-manager
+    createNamespace: true
+    set:
+      - name: installCRDs
+        value: true
+    wait: true
   - name: topokube
+    needs:
+      - nginx/nginx-ingress
+      - cert-manager/cert-manager
+    atomic: true
+    cleanupOnFail: true
     namespace: topokube
     chart: ./charts/koozie-exporter
     values:
       - "./charts/koozie-exporter/values.yaml"
+    set:
+      - name: prometheus.serviceMonitor.enabled
+        value: true
     wait: true
     waitForJobs: true
     createNamespace: true

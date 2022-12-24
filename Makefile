@@ -10,10 +10,11 @@ clean:
 	rm -rf **/out
 	rm -rf **/.cache
 	rm -f topokube
+	go clean -cache
+	go clean
 	kind delete cluster --name koozie
-	docker rmi $$(docker images -f "reference=topokube:*" -q)
-	docker rmi $$(docker images -f "reference=topokube-ui:*" -q)
-	docker system prune -f
+	docker rmi -f $$(docker images -f "reference=topokube:*" -q) || echo "no matching images"
+	docker rmi -f $$(docker images -f "reference=topokube-ui:*" -q) || echo "no matching images"
 docker:
 	cd ui && \
 	docker build . -t topokube-ui:$(version)
@@ -28,7 +29,7 @@ inkind:
 	kind load docker-image --name koozie topokube:$(version)
 	kind load docker-image  --name koozie topokube-ui:$(version)
 	kubectl config set current-context kind-koozie
-	helmfile apply
+	helmfile apply --skip-diff-on-install --include-needs
 
 testkind:
 	curl -H "HOST:topokube.local" http://0.0.0.0:30080/

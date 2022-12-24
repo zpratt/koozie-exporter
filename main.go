@@ -39,7 +39,7 @@ func main() {
 	})
 	http.Handle("/api/kubernetes-webhook", handlers.NewKubernetesWebhookHandler(registry))
 
-	err := http.ListenAndServeTLS(":8443", "/certificates/tlsCert", "/certificates/tlsKey", nil)
+	err := http.ListenAndServeTLS(":8443", "/certificates/tls.crt", "/certificates/tls.key", nil)
 	if err != nil {
 		klog.Error(err)
 	}
