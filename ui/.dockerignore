@@ -2,6 +2,7 @@
 
 !pages
 !src
+!test
 
 !next.config.js
 !nginx.conf
