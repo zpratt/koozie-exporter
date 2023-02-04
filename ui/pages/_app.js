@@ -1,4 +1,3 @@
-import 'muicss/dist/css/mui.css';
 import React from 'react';
 import AppContainer from '../src/app-container';
 

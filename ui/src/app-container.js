@@ -1,4 +1,3 @@
-import {Container} from 'muicss/react';
 import React from 'react';
 import {applyMiddleware, createStore} from "redux";
 import topokube from "./reducers";
@@ -12,10 +11,10 @@ const store = createStore(topokube, applyMiddleware(thunk));
 const AppContainer = () => {
     return (
         <Provider store={store}>
-            <Container fluid={true}>
+            <div fluid={true}>
                 <NamespaceListContainer/>
                 <PodListContainer namespace={'topokube'}/>
-            </Container>
+            </div>
         </Provider>
     );
 };

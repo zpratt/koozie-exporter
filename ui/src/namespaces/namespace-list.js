@@ -1,13 +1,12 @@
 import React, {useEffect} from 'react';
 import {connect, useDispatch} from 'react-redux'
-import {Panel, Row, Col} from 'muicss/react';
 import {findAllNamespaces} from './namespace-repository';
 
 const NamespaceList = (props) => {
     const dispatch = useDispatch();
 
     const namespaces = props.namespaces.map((namespace, index) => {
-        return <Panel key={index}>{namespace.name}</Panel>
+        return <div key={index}>{namespace.name}</div>
     });
 
     useEffect(() => {
@@ -15,15 +14,15 @@ const NamespaceList = (props) => {
     }, []);
 
     return (
-        <Row>
+        <div>
             {namespaces.map((namespaceEl, index) => {
                 return (
-                    <Col md={4} key={index}>
+                    <div md={4} key={index}>
                         {namespaceEl}
-                    </Col>
+                    </div>
                 );
             })}
-        </Row>
+        </div>
     );
 };
 
