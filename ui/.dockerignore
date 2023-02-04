@@ -4,6 +4,7 @@
 !src
 !test
 
+!jest.config.js
 !next.config.js
 !nginx.conf
 !package.json
