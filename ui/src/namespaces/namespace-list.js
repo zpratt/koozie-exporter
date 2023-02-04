@@ -27,9 +27,10 @@ const NamespaceList = (props) => {
 };
 
 const mapStateToProps = (state) => {
-    return {
+    const props = {
         namespaces: state.app.namespaces ? state.app.namespaces : []
     };
+    return props;
 };
 
 const mapDispatchToProps = () => {
