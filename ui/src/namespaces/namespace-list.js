@@ -4,7 +4,7 @@ import {findAllNamespaces} from './namespace-repository';
 
 const NamespaceList = (props) => {
     const dispatch = useDispatch();
-    const namespaces = useSelector(state => state.app.namespaces);
+    const namespaces = useSelector(state => state.app.namespaces ? state.app.namespaces : []);
 
     useEffect(() => {
         dispatch(findAllNamespaces());

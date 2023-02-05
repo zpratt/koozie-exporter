@@ -62,4 +62,12 @@ describe('NamespaceList', () => {
 
         expect(findAllNamespaces).toHaveBeenCalled();
     });
+
+    it('should not throw an error if namespaces is undefined', () => {
+        const store = mockStoreWithState({
+            app: {}
+        });
+
+        render(<Provider store={store}><NamespaceListContainer/></Provider>);
+    });
 });
