@@ -9,3 +9,4 @@
 !nginx.conf
 !package.json
 !package-lock.json
+!.eslintrc.json
