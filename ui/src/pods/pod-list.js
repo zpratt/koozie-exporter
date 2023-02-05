@@ -11,7 +11,7 @@ const PodList = (props) => {
 
     useEffect(() => {
         dispatch(findPodsByNamespace(props.namespace));
-    }, []);
+    }, [dispatch, props.namespace]);
     return <ul>{podsListElements}</ul>;
 };
 

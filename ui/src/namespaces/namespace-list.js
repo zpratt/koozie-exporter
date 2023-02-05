@@ -1,24 +1,21 @@
 import React, {useEffect} from 'react';
-import {connect, useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {findAllNamespaces} from './namespace-repository';
 
 const NamespaceList = (props) => {
     const dispatch = useDispatch();
-
-    const namespaces = props.namespaces.map((namespace, index) => {
-        return <div key={index}>{namespace.name}</div>
-    });
+    const namespaces = useSelector(state => state.app.namespaces ? state.app.namespaces : []);
 
     useEffect(() => {
         dispatch(findAllNamespaces());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div>
-            {namespaces.map((namespaceEl, index) => {
+            {namespaces.map((namespace, index) => {
                 return (
                     <div md={4} key={index}>
-                        {namespaceEl}
+                        <div>{namespace.name}</div>
                     </div>
                 );
             })}
@@ -26,16 +23,4 @@ const NamespaceList = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return {
-        namespaces: state.app.namespaces ? state.app.namespaces : []
-    };
-};
-
-const mapDispatchToProps = () => {
-    return {};
-};
-
-const NamespaceListContainer = connect(mapStateToProps, mapDispatchToProps)(NamespaceList);
-
-export default NamespaceListContainer;
+export default NamespaceList;

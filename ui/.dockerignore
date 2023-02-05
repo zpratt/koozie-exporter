@@ -2,8 +2,11 @@
 
 !pages
 !src
+!test
 
+!jest.config.js
 !next.config.js
 !nginx.conf
 !package.json
 !package-lock.json
+!.eslintrc.json

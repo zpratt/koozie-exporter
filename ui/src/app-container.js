@@ -2,7 +2,7 @@ import React from 'react';
 import {applyMiddleware, createStore} from "redux";
 import topokube from "./reducers";
 import thunk from "redux-thunk";
-import NamespaceListContainer from "./namespaces/namespace-list";
+import NamespaceList from "./namespaces/namespace-list";
 import PodListContainer from "./pods/pod-list";
 import {Provider} from "react-redux";
 
@@ -12,7 +12,7 @@ const AppContainer = () => {
     return (
         <Provider store={store}>
             <div fluid={true}>
-                <NamespaceListContainer/>
+                <NamespaceList/>
                 <PodListContainer namespace={'topokube'}/>
             </div>
         </Provider>

@@ -7,6 +7,8 @@ ENV CI=true
 COPY . .
 
 RUN npm ci --omit=optional --legacy-peer-deps \
+    && npm test \
+    && npm run lint \
     && npm run build
 
 #######################################

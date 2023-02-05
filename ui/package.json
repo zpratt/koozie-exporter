@@ -4,8 +4,10 @@
   "description": "the ui of topokube",
   "main": "index.js",
   "scripts": {
+    "build": "NODE_OPTIONS=--openssl-legacy-provider next build && next export",
+    "lint": "next lint",
     "start": "next start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider next build && next export"
+    "test": "jest"
   },
   "author": "zach pratt <zach@modzed.io>",
   "license": "MIT",
@@ -17,5 +19,14 @@
     "react-redux": "8.0.5",
     "redux": "4.2.1",
     "redux-thunk": "2.4.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "29.4.1",
+    "@testing-library/react": "13.4.0",
+    "chance": "1.1.9",
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "jest": "29.4.1",
+    "jest-environment-jsdom": "29.4.1"
   }
 }
