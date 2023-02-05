@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine3.15 as builder
+FROM golang:1.19-alpine3.15 as builder
 
 WORKDIR /workspace
 RUN apk update && apk add --no-cache gcc=10.3.1_git20211027-r0 libc-dev=0.7.2-r3
