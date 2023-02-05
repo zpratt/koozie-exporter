@@ -8,7 +8,7 @@ const NamespaceList = (props) => {
 
     useEffect(() => {
         dispatch(findAllNamespaces());
-    }, []);
+    }, [dispatch]);
 
     return (
         <div>
