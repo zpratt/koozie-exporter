@@ -8,7 +8,7 @@ RUN go build -a
 
 ##########################
 
-FROM alpine:3.15.0 as final
+FROM alpine:3.17.1 as final
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
